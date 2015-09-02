@@ -12,6 +12,7 @@
 
 +(id)getChampData{
     
+    
     NSURL *url = [NSURL URLWithString:@"https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822"];
     
     NSData *data = [NSData dataWithContentsOfURL:url];

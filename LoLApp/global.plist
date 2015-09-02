@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>championImageURL</key>
+	<string>http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/%@.png</string>
+	<key>championsURL</key>
+	<string>https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&amp;api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822</string>
+	<key>summonerURL</key>
+	<string>https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/%@?api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822</string>
+</dict>
+</plist>

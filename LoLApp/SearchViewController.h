@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyTabBarViewController.h"
+#import "NormalViewController.h"
+#import "ChampionViewController.h"
+#import "Data.h"
+#import "ChampTableViewCell.h"
+#import "DataDownloader.h"
 
-@interface SearchViewController : UIViewController
+@interface SearchViewController : UIViewController <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,DataDownloaderDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (weak, nonatomic) IBOutlet UITextField *searchTxtFld;

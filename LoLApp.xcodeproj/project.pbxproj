@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		692537631B9784B20057B550 /* global.plist in Resources */ = {isa = PBXBuildFile; fileRef = 692537621B9784B20057B550 /* global.plist */; };
 		694928C51B92A6A900606C63 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 694928C41B92A6A900606C63 /* SearchViewController.m */; };
 		694928C81B92A6D700606C63 /* MyTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 694928C71B92A6D700606C63 /* MyTabBarViewController.m */; };
 		694928CB1B92A6EE00606C63 /* NormalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 694928CA1B92A6EE00606C63 /* NormalViewController.m */; };
@@ -42,6 +43,7 @@
 		695876F21B95656B00897696 /* challenger.png in Resources */ = {isa = PBXBuildFile; fileRef = 695876EF1B95656B00897696 /* challenger.png */; };
 		695876F31B95656B00897696 /* master.png in Resources */ = {isa = PBXBuildFile; fileRef = 695876F01B95656B00897696 /* master.png */; };
 		695876F41B95656B00897696 /* provisional.png in Resources */ = {isa = PBXBuildFile; fileRef = 695876F11B95656B00897696 /* provisional.png */; };
+		6960BF591B976BD700BBEEDA /* DataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6960BF581B976BD700BBEEDA /* DataDownloader.m */; };
 		69A98A5B1B965EB80075388D /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A98A5A1B965EB80075388D /* Data.m */; };
 		69C140A91B96D690002AF572 /* ChampTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C140A81B96D690002AF572 /* ChampTableViewCell.m */; };
 		69CAAC311B9449C00051931A /* joystick-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CAAC301B9449C00051931A /* joystick-25.png */; };
@@ -65,6 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		692537621B9784B20057B550 /* global.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = global.plist; sourceTree = "<group>"; };
 		694928C31B92A6A900606C63 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		694928C41B92A6A900606C63 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		694928C61B92A6D700606C63 /* MyTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTabBarViewController.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 		695876EF1B95656B00897696 /* challenger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = challenger.png; sourceTree = "<group>"; };
 		695876F01B95656B00897696 /* master.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = master.png; sourceTree = "<group>"; };
 		695876F11B95656B00897696 /* provisional.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = provisional.png; sourceTree = "<group>"; };
+		6960BF571B976BD700BBEEDA /* DataDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataDownloader.h; sourceTree = "<group>"; };
+		6960BF581B976BD700BBEEDA /* DataDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataDownloader.m; sourceTree = "<group>"; };
 		69A98A591B965EB80075388D /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		69A98A5A1B965EB80075388D /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
 		69C140A71B96D690002AF572 /* ChampTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChampTableViewCell.h; sourceTree = "<group>"; };
@@ -142,6 +147,68 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6925375D1B9776740057B550 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				69D2D82B1B928C120005B8CB /* AppDelegate.h */,
+				69D2D82C1B928C120005B8CB /* AppDelegate.m */,
+				69D2D8311B928C120005B8CB /* Main.storyboard */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		6925375E1B9776B40057B550 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				69A98A591B965EB80075388D /* Data.h */,
+				69A98A5A1B965EB80075388D /* Data.m */,
+				6960BF571B976BD700BBEEDA /* DataDownloader.h */,
+				6960BF581B976BD700BBEEDA /* DataDownloader.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		6925375F1B9776BE0057B550 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				692537641B97851A0057B550 /* TableViewCell */,
+				694928C31B92A6A900606C63 /* SearchViewController.h */,
+				694928C41B92A6A900606C63 /* SearchViewController.m */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		692537601B9776CD0057B550 /* Champions */ = {
+			isa = PBXGroup;
+			children = (
+				694928D21B938AEA00606C63 /* ChampionViewController.h */,
+				694928D31B938AEA00606C63 /* ChampionViewController.m */,
+			);
+			name = Champions;
+			sourceTree = "<group>";
+		};
+		692537611B9776D80057B550 /* Summoners */ = {
+			isa = PBXGroup;
+			children = (
+				694928C61B92A6D700606C63 /* MyTabBarViewController.h */,
+				694928C71B92A6D700606C63 /* MyTabBarViewController.m */,
+				694928C91B92A6EE00606C63 /* NormalViewController.h */,
+				694928CA1B92A6EE00606C63 /* NormalViewController.m */,
+				695876B91B95549E00897696 /* RankedViewController.h */,
+				695876BA1B95549E00897696 /* RankedViewController.m */,
+			);
+			name = Summoners;
+			sourceTree = "<group>";
+		};
+		692537641B97851A0057B550 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				69C140A71B96D690002AF572 /* ChampTableViewCell.h */,
+				69C140A81B96D690002AF572 /* ChampTableViewCell.m */,
+			);
+			name = TableViewCell;
+			sourceTree = "<group>";
+		};
 		695876BC1B95652500897696 /* RankedImages */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,23 +265,11 @@
 		69D2D8261B928C120005B8CB /* LoLApp */ = {
 			isa = PBXGroup;
 			children = (
-				69D2D82B1B928C120005B8CB /* AppDelegate.h */,
-				69D2D82C1B928C120005B8CB /* AppDelegate.m */,
-				69D2D8311B928C120005B8CB /* Main.storyboard */,
-				69A98A591B965EB80075388D /* Data.h */,
-				69A98A5A1B965EB80075388D /* Data.m */,
-				694928C31B92A6A900606C63 /* SearchViewController.h */,
-				694928C41B92A6A900606C63 /* SearchViewController.m */,
-				69C140A71B96D690002AF572 /* ChampTableViewCell.h */,
-				69C140A81B96D690002AF572 /* ChampTableViewCell.m */,
-				694928D21B938AEA00606C63 /* ChampionViewController.h */,
-				694928D31B938AEA00606C63 /* ChampionViewController.m */,
-				694928C61B92A6D700606C63 /* MyTabBarViewController.h */,
-				694928C71B92A6D700606C63 /* MyTabBarViewController.m */,
-				694928C91B92A6EE00606C63 /* NormalViewController.h */,
-				694928CA1B92A6EE00606C63 /* NormalViewController.m */,
-				695876B91B95549E00897696 /* RankedViewController.h */,
-				695876BA1B95549E00897696 /* RankedViewController.m */,
+				6925375D1B9776740057B550 /* Main */,
+				6925375F1B9776BE0057B550 /* Search */,
+				692537601B9776CD0057B550 /* Champions */,
+				692537611B9776D80057B550 /* Summoners */,
+				6925375E1B9776B40057B550 /* Utils */,
 				69D2D8341B928C120005B8CB /* Images.xcassets */,
 				69D2D8361B928C120005B8CB /* LaunchScreen.xib */,
 				69D2D8271B928C120005B8CB /* Supporting Files */,
@@ -232,6 +287,7 @@
 				694928DE1B93E35500606C63 /* bg.jpeg */,
 				69D2D8281B928C120005B8CB /* Info.plist */,
 				69D2D8291B928C120005B8CB /* main.m */,
+				692537621B9784B20057B550 /* global.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -344,6 +400,7 @@
 				695876E51B95654200897696 /* platinum_i.png in Resources */,
 				695876E91B95654200897696 /* platinum_v.png in Resources */,
 				695876E71B95654200897696 /* platinum_iii.png in Resources */,
+				692537631B9784B20057B550 /* global.plist in Resources */,
 				695876DF1B95654200897696 /* diamond_v.png in Resources */,
 				695876EE1B95654200897696 /* silver_v.png in Resources */,
 				695876DB1B95654200897696 /* diamond_i.png in Resources */,
@@ -393,6 +450,7 @@
 				694928C51B92A6A900606C63 /* SearchViewController.m in Sources */,
 				694928D41B938AEA00606C63 /* ChampionViewController.m in Sources */,
 				694928CB1B92A6EE00606C63 /* NormalViewController.m in Sources */,
+				6960BF591B976BD700BBEEDA /* DataDownloader.m in Sources */,
 				69D2D82A1B928C120005B8CB /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,13 +7,9 @@
 //
 
 #import "SearchViewController.h"
-#import "MyTabBarViewController.h"
-#import "NormalViewController.h"
-#import "ChampionViewController.h"
-#import "Data.h"
-#import "ChampTableViewCell.h"
 
-@interface SearchViewController () <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>{
+
+@interface SearchViewController () {
 
     NSString *searchName;
     NSURL *url;
@@ -25,6 +21,8 @@
     UIImageView *imgView;
     BOOL isFiltered;
     NSMutableArray *filteredData;
+    NSString *currentData;
+    DataDownloader *downloader;
 }
 
 @end
@@ -33,6 +31,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    downloader = [[DataDownloader alloc] init];
+    
+    downloader.delegate = self;
     
     [self setUp];
     [self getChampNames];
@@ -194,46 +196,81 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)getChampNames{
     
-    dictChamps = [Data getChampData];
+    currentData = @"champions";
     
-    champNames = [dictChamps allKeys];
+    [downloader downloadDataForURL:@"https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822" for:currentData];
     
-    champNames = [champNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+//    dictChamps = [Data getChampData];
+//    
+//    champNames = [dictChamps allKeys];
+//    
+//    champNames = [champNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    searchName = [self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-    summonerData = [Data getSummonerData:searchName];
+-(void)getSummoner{
     
-    if(summonerData == nil)
+    currentData = @"summoner";
+    
+    searchName = [[self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
+    
+    [downloader downloadDataForURL:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/%@?api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",searchName] for:currentData];
+}
+
+-(void)theDataIs:(NSData *)data{
+    if([currentData isEqualToString:@"champions"])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Summoner's name" message:@"Summoner's name does not exist" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        dictChamps = [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"];
         
-        [alert show];
+        champNames = [dictChamps allKeys];
         
-        [self.searchTxtFld becomeFirstResponder];
-        summonerData = [Data getSummonerData:searchName];
+        champNames = [champNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
         
-    }else{
-        
-        [self.searchTxtFld resignFirstResponder];
-        playerInfo = [NSJSONSerialization JSONObjectWithData:summonerData options:NSJSONReadingMutableContainers error:nil];
-        
-        [self performSegueWithIdentifier:@"search" sender:self];
-        
+        [self.champTable reloadData];
     }
     
+    if ([currentData isEqualToString:@"summoner"]) {
+        
+        summonerData = data;
+        
+        if(summonerData == nil)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Summoner's name" message:@"Summoner's name does not exist" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            
+            [alert show];
+            
+            [self.searchTxtFld becomeFirstResponder];
+            [self getSummoner];
+            
+        }else{
+            
+            [self.searchTxtFld resignFirstResponder];
+            playerInfo = [NSJSONSerialization JSONObjectWithData:summonerData options:NSJSONReadingMutableContainers error:nil];
+            
+            [self performSegueWithIdentifier:@"search" sender:self];
+            
+        }
+
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+//    searchName = [self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+//    summonerData = [Data getSummonerData:searchName];
+    
+    [self getSummoner];
     
     return YES;
 }
+
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     
     if([identifier isEqualToString: @"search"])
     {
-        searchName = [self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-        summonerData = [Data getSummonerData:searchName];
+//        searchName = [self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+//        summonerData = [Data getSummonerData:searchName];
+        [self getSummoner];
         
         if(summonerData == nil)
         {
@@ -243,7 +280,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             
             [self.searchTxtFld becomeFirstResponder];
             
-            summonerData = [Data getSummonerData:searchName];
+//            summonerData = [Data getSummonerData:searchName];
+            [self getSummoner];
             
             return NO;
             
