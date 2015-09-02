@@ -99,6 +99,9 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
  
+    UITextField *textField = [searchBar valueForKey:@"_searchField"];
+    textField.clearButtonMode = UITextFieldViewModeNever;
+    
     if(searchText.length == 0)
     {
         isFiltered = NO;
@@ -125,15 +128,6 @@
     
     [self.champTable reloadData];
     
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    
-    isFiltered = NO;
-    
-    searchBar.text = @"";
-    [self.champTable reloadData];
-
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

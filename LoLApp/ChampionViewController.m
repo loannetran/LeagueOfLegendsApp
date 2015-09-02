@@ -270,7 +270,7 @@
     skinImage.layer.masksToBounds = NO;
     skinImage.layer.shadowRadius = 1.0f;
     skinImage.layer.shadowOpacity = 0.8f;
-    skinImage.layer.shadowColor = color; // (__bridge CGColorRef)([UIColor grayColor]); // use bridge when it's not a CGColorRef type
+    skinImage.layer.shadowColor = color;
     skinImage.layer.shadowOffset = CGSizeMake( 4.0f, 5.0f);
     skinImage.layer.shouldRasterize = YES;
     skinImage.layer.borderWidth = 0.8;
