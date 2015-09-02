@@ -275,6 +275,7 @@
     skinImage.layer.shouldRasterize = YES;
     skinImage.layer.borderWidth = 0.8;
     UILabel *skinLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 138, 90, 50)];
+    skinLabel.textColor = [UIColor colorWithRed:134.0/255.0 green:11.0/255.0 blue:16.0/255.0 alpha:1];
     skinLabel.font = [UIFont fontWithName:@"Arial" size:11];
     skinLabel.numberOfLines = 2;
     skinLabel.textAlignment = NSTextAlignmentCenter;

@@ -43,6 +43,7 @@
 		695876F31B95656B00897696 /* master.png in Resources */ = {isa = PBXBuildFile; fileRef = 695876F01B95656B00897696 /* master.png */; };
 		695876F41B95656B00897696 /* provisional.png in Resources */ = {isa = PBXBuildFile; fileRef = 695876F11B95656B00897696 /* provisional.png */; };
 		69A98A5B1B965EB80075388D /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A98A5A1B965EB80075388D /* Data.m */; };
+		69C140A91B96D690002AF572 /* ChampTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C140A81B96D690002AF572 /* ChampTableViewCell.m */; };
 		69CAAC311B9449C00051931A /* joystick-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CAAC301B9449C00051931A /* joystick-25.png */; };
 		69CAAC331B9449CA0051931A /* hearts-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CAAC321B9449CA0051931A /* hearts-25.png */; };
 		69D2D82A1B928C120005B8CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D2D8291B928C120005B8CB /* main.m */; };
@@ -106,6 +107,8 @@
 		695876F11B95656B00897696 /* provisional.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = provisional.png; sourceTree = "<group>"; };
 		69A98A591B965EB80075388D /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		69A98A5A1B965EB80075388D /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
+		69C140A71B96D690002AF572 /* ChampTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChampTableViewCell.h; sourceTree = "<group>"; };
+		69C140A81B96D690002AF572 /* ChampTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChampTableViewCell.m; sourceTree = "<group>"; };
 		69CAAC301B9449C00051931A /* joystick-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "joystick-25.png"; sourceTree = "<group>"; };
 		69CAAC321B9449CA0051931A /* hearts-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hearts-25.png"; sourceTree = "<group>"; };
 		69D2D8241B928C120005B8CB /* LoLApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoLApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,6 +205,8 @@
 				69A98A5A1B965EB80075388D /* Data.m */,
 				694928C31B92A6A900606C63 /* SearchViewController.h */,
 				694928C41B92A6A900606C63 /* SearchViewController.m */,
+				69C140A71B96D690002AF572 /* ChampTableViewCell.h */,
+				69C140A81B96D690002AF572 /* ChampTableViewCell.m */,
 				694928D21B938AEA00606C63 /* ChampionViewController.h */,
 				694928D31B938AEA00606C63 /* ChampionViewController.m */,
 				694928C61B92A6D700606C63 /* MyTabBarViewController.h */,
@@ -384,6 +389,7 @@
 				69D2D82D1B928C120005B8CB /* AppDelegate.m in Sources */,
 				695876BB1B95549E00897696 /* RankedViewController.m in Sources */,
 				69A98A5B1B965EB80075388D /* Data.m in Sources */,
+				69C140A91B96D690002AF572 /* ChampTableViewCell.m in Sources */,
 				694928C51B92A6A900606C63 /* SearchViewController.m in Sources */,
 				694928D41B938AEA00606C63 /* ChampionViewController.m in Sources */,
 				694928CB1B92A6EE00606C63 /* NormalViewController.m in Sources */,

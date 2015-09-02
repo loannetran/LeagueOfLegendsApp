@@ -11,6 +11,7 @@
 #import "NormalViewController.h"
 #import "ChampionViewController.h"
 #import "Data.h"
+#import "ChampTableViewCell.h"
 
 @interface SearchViewController () <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>{
 
@@ -36,7 +37,7 @@
     [self setUp];
     [self getChampNames];
     
-    [self.champTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"champ"];
+//    [self.champTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"champ"];
     
 }
 
@@ -132,33 +133,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"champ"];
+    ChampTableViewCell *cell = [self.champTable dequeueReusableCellWithIdentifier:@"champ"];
     
-    imgView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 4, 80, 80)];
-    
-    UILabel *champName = [[UILabel alloc] initWithFrame:CGRectMake(117, 8, 195, 73)];
-    champName.font = [UIFont fontWithName:@"GurmukhiMN" size:25];
-    champName.textColor = [UIColor whiteColor];
-    
-    if(isFiltered)
-    {
-        imgView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/%@.png", [filteredData objectAtIndex:indexPath.row]]]]];
-        
-        champName.text = [NSString stringWithFormat:@"%@",[filteredData objectAtIndex:indexPath.row]];
-        
-    }else{
-        imgView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/%@.png", [champNames objectAtIndex:indexPath.row]]]]];
-        
-        champName.text = [NSString stringWithFormat:@"%@",[champNames objectAtIndex:indexPath.row]];
-    }
-    
-    imgView.layer.cornerRadius = 10;
-    imgView.layer.masksToBounds = YES;
-    [cell.contentView addSubview:imgView];
-    
-    champName.textAlignment = NSTextAlignmentCenter;
-    [cell.contentView addSubview:champName];
-    
+        if(isFiltered)
+        {
+            [cell setImageAndLabelFor:[filteredData objectAtIndex:indexPath.row]];
+            
+        }else{
+            [cell setImageAndLabelFor:[champNames objectAtIndex:indexPath.row]];
+        }
     
     return cell;
 }
@@ -186,25 +169,25 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     {
         noInfo = [[UIAlertView alloc] initWithTitle:@"Champ Info" message:@"Champ information not available at this time" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         
-    }if([[filteredData objectAtIndex:indexPath.row] isEqual:@"Bard"] || [[filteredData objectAtIndex:indexPath.row] isEqual:@"Ekko"] || [[filteredData objectAtIndex:indexPath.row] isEqual:@"TahmKench"]){
+    }else if([[filteredData objectAtIndex:indexPath.row] isEqual:@"Bard"] || [[filteredData objectAtIndex:indexPath.row] isEqual:@"Ekko"] || [[filteredData objectAtIndex:indexPath.row] isEqual:@"TahmKench"]){
         
         noInfo = [[UIAlertView alloc] initWithTitle:@"Champ Info" message:@"Champ information not available at this time" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         
-    }
-        
-    if(isFiltered)
-    {
-        selectedChamp = [NSString stringWithFormat:@"%@", [filteredData objectAtIndex:indexPath.row]];
-       
-        
     }else{
+        if(isFiltered)
+        {
+            selectedChamp = [NSString stringWithFormat:@"%@", [filteredData objectAtIndex:indexPath.row]];
+            
+            
+        }else{
             selectedChamp = [NSString stringWithFormat:@"%@", [champNames objectAtIndex:indexPath.row]];
-       
+            
+        }
+        
+        [self.champTable deselectRowAtIndexPath:indexPath animated:YES];
+        [self performSegueWithIdentifier:@"champion" sender:self];
+
     }
-    
-    [self.champTable deselectRowAtIndexPath:indexPath animated:YES];
-    [self performSegueWithIdentifier:@"champion" sender:self];
-    
     
     [noInfo show];
 }
@@ -247,27 +230,31 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     
-    searchName = [self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-    summonerData = [Data getSummonerData:searchName];
-    
-    if(summonerData == nil)
+    if([identifier isEqualToString: @"search"])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Summoner's name" message:@"Summoner's name does not exist" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [alert show];
-        
-        [self.searchTxtFld becomeFirstResponder];
-        
+        searchName = [self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""];
         summonerData = [Data getSummonerData:searchName];
         
-        return NO;
-        
-    }else{
-        [self.searchTxtFld resignFirstResponder];
-        playerInfo = [NSJSONSerialization JSONObjectWithData:summonerData options:NSJSONReadingMutableContainers error:nil];
+        if(summonerData == nil)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Summoner's name" message:@"Summoner's name does not exist" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            
+            [alert show];
+            
+            [self.searchTxtFld becomeFirstResponder];
+            
+            summonerData = [Data getSummonerData:searchName];
+            
+            return NO;
+            
+        }else{
+            [self.searchTxtFld resignFirstResponder];
+            playerInfo = [NSJSONSerialization JSONObjectWithData:summonerData options:NSJSONReadingMutableContainers error:nil];
+        }
+
     }
     
-    return YES;
+    return NO;
     
 }
 
