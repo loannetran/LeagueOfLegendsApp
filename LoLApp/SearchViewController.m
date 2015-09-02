@@ -10,12 +10,13 @@
 #import "MyTabBarViewController.h"
 #import "NormalViewController.h"
 #import "ChampionViewController.h"
+#import "Data.h"
 
 @interface SearchViewController () <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>{
-    
+
     NSString *searchName;
     NSURL *url;
-    NSData *data;
+    NSData *summonerData;
     NSDictionary *playerInfo;
     NSDictionary *dictChamps;
     NSArray *champNames;
@@ -33,7 +34,10 @@
     [super viewDidLoad];
     
     [self setUp];
-    [self getChampData];
+    [self getChampNames];
+    
+    [self.champTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"champ"];
+    
 }
 
 -(void)setUp{
@@ -123,6 +127,15 @@
     
 }
 
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    
+    isFiltered = NO;
+    
+    searchBar.text = @"";
+    [self.champTable reloadData];
+
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"champ"];
@@ -138,7 +151,7 @@
         imgView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/%@.png", [filteredData objectAtIndex:indexPath.row]]]]];
         
         champName.text = [NSString stringWithFormat:@"%@",[filteredData objectAtIndex:indexPath.row]];
-
+        
     }else{
         imgView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/%@.png", [champNames objectAtIndex:indexPath.row]]]]];
         
@@ -151,7 +164,7 @@
     
     champName.textAlignment = NSTextAlignmentCenter;
     [cell.contentView addSubview:champName];
-
+    
     
     return cell;
 }
@@ -202,13 +215,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [noInfo show];
 }
 
--(void)getChampData{
+-(void)getChampNames{
     
-    NSURL *urlChamp = [NSURL URLWithString:@"https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822"];
-    
-    NSData *dataChamp = [NSData dataWithContentsOfURL:urlChamp];
-    
-    dictChamps = [[NSJSONSerialization JSONObjectWithData:dataChamp options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"];
+    dictChamps = [Data getChampData];
     
     champNames = [dictChamps allKeys];
     
@@ -216,36 +225,26 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     
 }
 
--(void)getSummonerData{
-    
-    searchName = [[self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""] lowercaseString];
-        
-    url = [NSURL URLWithString:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/%@?api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",searchName]];
-        
-    data = [NSData dataWithContentsOfURL:url];
-    
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    searchName = [self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    summonerData = [Data getSummonerData:searchName];
     
-    [self getSummonerData];
-    
-    if(data == nil)
+    if(summonerData == nil)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Summoner's name" message:@"Summoner's name does not exist" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         
         [alert show];
         
         [self.searchTxtFld becomeFirstResponder];
-        [self getSummonerData];
+        summonerData = [Data getSummonerData:searchName];
         
     }else{
         
         [self.searchTxtFld resignFirstResponder];
-        playerInfo = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        playerInfo = [NSJSONSerialization JSONObjectWithData:summonerData options:NSJSONReadingMutableContainers error:nil];
         
         [self performSegueWithIdentifier:@"search" sender:self];
-
+        
     }
     
     
@@ -254,22 +253,24 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     
-    [self getSummonerData];
+    searchName = [self.searchTxtFld.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    summonerData = [Data getSummonerData:searchName];
     
-    if(data == nil)
+    if(summonerData == nil)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Summoner's name" message:@"Summoner's name does not exist" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [alert show];
         
         [self.searchTxtFld becomeFirstResponder];
-        [self getSummonerData];
+        
+        summonerData = [Data getSummonerData:searchName];
         
         return NO;
         
     }else{
         [self.searchTxtFld resignFirstResponder];
-        playerInfo = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        playerInfo = [NSJSONSerialization JSONObjectWithData:summonerData options:NSJSONReadingMutableContainers error:nil];
     }
     
     return YES;
