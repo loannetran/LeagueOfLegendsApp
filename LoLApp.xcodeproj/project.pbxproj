@@ -44,7 +44,6 @@
 		695876F31B95656B00897696 /* master.png in Resources */ = {isa = PBXBuildFile; fileRef = 695876F01B95656B00897696 /* master.png */; };
 		695876F41B95656B00897696 /* provisional.png in Resources */ = {isa = PBXBuildFile; fileRef = 695876F11B95656B00897696 /* provisional.png */; };
 		6960BF591B976BD700BBEEDA /* DataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6960BF581B976BD700BBEEDA /* DataDownloader.m */; };
-		69A98A5B1B965EB80075388D /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A98A5A1B965EB80075388D /* Data.m */; };
 		69C140A91B96D690002AF572 /* ChampTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C140A81B96D690002AF572 /* ChampTableViewCell.m */; };
 		69CAAC311B9449C00051931A /* joystick-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CAAC301B9449C00051931A /* joystick-25.png */; };
 		69CAAC331B9449CA0051931A /* hearts-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 69CAAC321B9449CA0051931A /* hearts-25.png */; };
@@ -110,8 +109,6 @@
 		695876F11B95656B00897696 /* provisional.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = provisional.png; sourceTree = "<group>"; };
 		6960BF571B976BD700BBEEDA /* DataDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataDownloader.h; sourceTree = "<group>"; };
 		6960BF581B976BD700BBEEDA /* DataDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataDownloader.m; sourceTree = "<group>"; };
-		69A98A591B965EB80075388D /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
-		69A98A5A1B965EB80075388D /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
 		69C140A71B96D690002AF572 /* ChampTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChampTableViewCell.h; sourceTree = "<group>"; };
 		69C140A81B96D690002AF572 /* ChampTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChampTableViewCell.m; sourceTree = "<group>"; };
 		69CAAC301B9449C00051931A /* joystick-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "joystick-25.png"; sourceTree = "<group>"; };
@@ -160,8 +157,6 @@
 		6925375E1B9776B40057B550 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				69A98A591B965EB80075388D /* Data.h */,
-				69A98A5A1B965EB80075388D /* Data.m */,
 				6960BF571B976BD700BBEEDA /* DataDownloader.h */,
 				6960BF581B976BD700BBEEDA /* DataDownloader.m */,
 			);
@@ -445,7 +440,6 @@
 				694928C81B92A6D700606C63 /* MyTabBarViewController.m in Sources */,
 				69D2D82D1B928C120005B8CB /* AppDelegate.m in Sources */,
 				695876BB1B95549E00897696 /* RankedViewController.m in Sources */,
-				69A98A5B1B965EB80075388D /* Data.m in Sources */,
 				69C140A91B96D690002AF572 /* ChampTableViewCell.m in Sources */,
 				694928C51B92A6A900606C63 /* SearchViewController.m in Sources */,
 				694928D41B938AEA00606C63 /* ChampionViewController.m in Sources */,

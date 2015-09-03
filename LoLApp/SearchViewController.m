@@ -33,13 +33,10 @@
     [super viewDidLoad];
     
     downloader = [[DataDownloader alloc] init];
-    
     downloader.delegate = self;
     
     [self setUp];
     [self getChampNames];
-    
-//    [self.champTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"champ"];
     
 }
 
@@ -63,7 +60,6 @@
     
     self.searchBtn.layer.cornerRadius = 10;
     self.searchBtn.layer.masksToBounds = YES;
-    
     
 }
 
@@ -148,13 +144,6 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView
-  willDisplayCell:(UITableViewCell *)cell
-forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [cell setBackgroundColor:[UIColor clearColor]];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
     
@@ -176,6 +165,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         noInfo = [[UIAlertView alloc] initWithTitle:@"Champ Info" message:@"Champ information not available at this time" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         
     }else{
+        
         if(isFiltered)
         {
             selectedChamp = [NSString stringWithFormat:@"%@", [filteredData objectAtIndex:indexPath.row]];
@@ -199,13 +189,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     currentData = @"champions";
     
     [downloader downloadDataForURL:@"https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion?champData=image&api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822" for:currentData];
-    
-//    dictChamps = [Data getChampData];
-//    
-//    champNames = [dictChamps allKeys];
-//    
-//    champNames = [champNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-    
+
 }
 
 -(void)getSummoner{
@@ -218,6 +202,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 -(void)theDataIs:(NSData *)data{
+    
     if([currentData isEqualToString:@"champions"])
     {
         dictChamps = [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"];
@@ -233,22 +218,27 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         
         summonerData = data;
         
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Summoner's name" message:@"Summoner's name does not exist" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        
         if(summonerData == nil)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Summoner's name" message:@"Summoner's name does not exist" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-            
             [alert show];
             
             [self.searchTxtFld becomeFirstResponder];
-            [self getSummoner];
+//            [self getSummoner];
             
         }else{
-            
-            [self.searchTxtFld resignFirstResponder];
             playerInfo = [NSJSONSerialization JSONObjectWithData:summonerData options:NSJSONReadingMutableContainers error:nil];
             
-            [self performSegueWithIdentifier:@"search" sender:self];
-            
+            if (playerInfo [searchName]) {
+                [self.searchTxtFld resignFirstResponder];
+                
+                [self performSegueWithIdentifier:@"search" sender:self];
+            }else{
+                [alert show];
+                [self.searchTxtFld becomeFirstResponder];
+   
+            }
         }
 
     }

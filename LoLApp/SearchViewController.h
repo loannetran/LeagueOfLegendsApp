@@ -10,7 +10,6 @@
 #import "MyTabBarViewController.h"
 #import "NormalViewController.h"
 #import "ChampionViewController.h"
-#import "Data.h"
 #import "ChampTableViewCell.h"
 #import "DataDownloader.h"
 
