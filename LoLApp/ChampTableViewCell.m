@@ -12,24 +12,34 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    downloader = [[DataDownloader alloc] init];
+    downloader.delegate = self;
+}
+
+-(void)getDataForChamp:(NSString *)champName{
+    
+    currentData = @"champImg";
+    
+    [downloader downloadDataForURL:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/%@.png", champName] for:currentData];
+    
+    self.champLbl.text = [NSString stringWithFormat:@"%@",champName];
+}
+
+-(void)theDataIs:(NSData *)data{
+    
+    if([currentData isEqualToString:@"champImg"]){
+        
+        self.champImgView.image = [UIImage imageWithData:data];
+        self.champImgView.layer.cornerRadius = 10;
+        self.champImgView.layer.masksToBounds = YES;
+        self.champLbl.textAlignment = NSTextAlignmentCenter;
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
-}
-
--(void)setImageAndLabelFor:(NSString *)champName{
-    
-    self.champImgView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/%@.png", champName]]]];
-    
-    self.champLbl.text = [NSString stringWithFormat:@"%@",champName];
-    
-    self.champImgView.layer.cornerRadius = 10;
-    self.champImgView.layer.masksToBounds = YES;
-    self.champLbl.textAlignment = NSTextAlignmentCenter;
-
 }
 
 @end

@@ -7,8 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataDownloader.h"
 
-@interface ChampionViewController : UIViewController
+@interface ChampionViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate,DataDownloaderDelegate>{
+
+    NSArray *champSkins;
+    NSDictionary *champInfo;
+    NSArray *skins;
+    NSArray *spells;
+    NSDictionary *passive;
+    NSString *currentData;
+    DataDownloader *downloader;
+}
 
 @property (weak, nonatomic) IBOutlet UILabel *passiveName;
 @property (weak, nonatomic) IBOutlet UITextView *passiveInfo;

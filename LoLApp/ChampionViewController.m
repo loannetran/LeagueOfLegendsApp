@@ -8,14 +8,7 @@
 
 #import "ChampionViewController.h"
 
-@interface ChampionViewController ()<UIPickerViewDataSource, UIPickerViewDelegate>{
-    
-    NSArray *champSkins;
-    NSDictionary *champInfo;
-    NSArray *skins;
-    NSArray *spells;
-    NSDictionary *passive;
-}
+@interface ChampionViewController ()
 
 @end
 
@@ -51,24 +44,35 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    downloader = [[DataDownloader alloc] init];
+    downloader.delegate = self;
+    
     [self setUp];
     [self getData];
-    [self setData];
     [self setUpGestures];
     
 }
 
 -(void)getData{
     
-    NSURL *champURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/data/en_US/champion/%@.json", self.champName]];
-    NSData *data = [NSData dataWithContentsOfURL:champURL];
-    champInfo = [[[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"] objectForKey:[NSString stringWithFormat:@"%@",self.champName]];
-    skins = [champInfo objectForKey:@"skins"];
+    currentData = @"championData";
     
-    passive = [champInfo objectForKey:@"passive"];
-    
-    spells = [champInfo objectForKey:@"spells"];
+    [downloader downloadDataForURL:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/data/en_US/champion/%@.json", self.champName] for:currentData];
 
+}
+
+-(void)theDataIs:(NSData *)data{
+    
+    if([downloader.name isEqualToString:@"championData"])
+    {
+        champInfo = [[[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"] objectForKey:[NSString stringWithFormat:@"%@",self.champName]];
+        skins = [champInfo objectForKey:@"skins"];
+        passive = [champInfo objectForKey:@"passive"];
+        spells = [champInfo objectForKey:@"spells"];
+        [self setData];
+        [self.skinPicker reloadAllComponents];
+    }
+    
 }
 
 -(void)setData{

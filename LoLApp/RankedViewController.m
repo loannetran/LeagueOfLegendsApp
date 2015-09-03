@@ -8,18 +8,7 @@
 
 #import "RankedViewController.h"
 
-@interface RankedViewController (){
-    
-    NSArray *soloLeague;
-    NSArray *playersInThisLeague;
-    NSDictionary *playerStats;
-    NSString *tier;
-    NSString *division;
-    NSString *wins;
-    NSString *loss;
-    NSString *leaguePts;
-
-}
+@interface RankedViewController ()
 
 @end
 
@@ -33,53 +22,62 @@
     [self.soloView setAlpha:0.7];
     [self.teamView setAlpha:0.7];
     
+    downloader = [[DataDownloader alloc] init];
+    downloader.delegate = self;
+    
     [self getData];
-    [self setData];
 }
 
 -(void)getData{
     
-    NSLog(@"%@", self.playerId);
+    [downloader downloadDataForURL:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/%@?api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",self.playerId] for:@"rankedInfo"];
     
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/%@?api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",self.playerId]]];
+}
+
+-(void)theDataIs:(NSData *)data{
     
-    if(data == nil)
-    {
-        tier = @"Unranked";
-        
-    }else{
+    if ([downloader.name isEqualToString:@"rankedInfo"]) {
+     
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         
         soloLeague = [dict objectForKey:[NSString stringWithFormat:@"%@",self.playerId]];
         
-        for (int i = 0; i<soloLeague.count; i++) {
-            if([[[soloLeague objectAtIndex:i] objectForKey:@"queue"] isEqualToString:@"RANKED_SOLO_5x5"]){
-                
-                tier = [[soloLeague objectAtIndex:i] objectForKey:@"tier"];
-                playersInThisLeague = [[soloLeague objectAtIndex:i] objectForKey:@"entries"];
-                break;
-            }
-        }
-        
-        NSString *playerName = [self.playerInfo objectForKey:@"name"];
-        
-        for(int i = 0; i<playersInThisLeague.count; i++)
+        if(soloLeague == nil)
         {
-            if([[[playersInThisLeague objectAtIndex:i] objectForKey:@"playerOrTeamName"] isEqualToString:playerName])
-            {
-                playerStats = [playersInThisLeague objectAtIndex:i];
-                NSLog(@"%@",playerStats);
-                break;
+            tier = @"Unranked";
+            
+        }else{
+            
+            for (int i = 0; i<soloLeague.count; i++) {
+                if([[[soloLeague objectAtIndex:i] objectForKey:@"queue"] isEqualToString:@"RANKED_SOLO_5x5"]){
+                    
+                    tier = [[soloLeague objectAtIndex:i] objectForKey:@"tier"];
+                    playersInThisLeague = [[soloLeague objectAtIndex:i] objectForKey:@"entries"];
+                    break;
+                }
             }
+            
+            NSString *playerName = [self.playerInfo objectForKey:@"name"];
+            
+            for(int i = 0; i<playersInThisLeague.count; i++)
+            {
+                if([[[playersInThisLeague objectAtIndex:i] objectForKey:@"playerOrTeamName"] isEqualToString:playerName])
+                {
+                    playerStats = [playersInThisLeague objectAtIndex:i];
+                    NSLog(@"%@",playerStats);
+                    break;
+                }
+            }
+            
+            division = [playerStats objectForKey:@"division"];
+            leaguePts = [playerStats objectForKey:@"leaguePoints"];
+            loss = [playerStats objectForKey:@"losses"];
+            wins = [playerStats objectForKey:@"wins"];
+            
         }
         
-        division = [playerStats objectForKey:@"division"];
-        leaguePts = [playerStats objectForKey:@"leaguePoints"];
-        loss = [playerStats objectForKey:@"losses"];
-        wins = [playerStats objectForKey:@"wins"];
-
+        [self setData];
     }
-    
     
 }
 

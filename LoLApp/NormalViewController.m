@@ -7,17 +7,8 @@
 //
 
 #import "NormalViewController.h"
-#import "RankedViewController.h"
 
-@interface NormalViewController (){
-    
-    NSString *playerName;
-    NSURL *urlImage;
-    NSURL *url;
-    NSData *data;
-    NSArray *playerSummary;
-    NSDictionary *unrankedData;
-}
+@interface NormalViewController ()
 
 @end
 
@@ -34,10 +25,10 @@
     
     playerName = [self.playerInfo objectForKey:@"name"];
     
+    downloader = [[DataDownloader alloc] init];
+    downloader.delegate = self;
+    
     [self getData];
-    [self setData];
-    
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -50,26 +41,35 @@
 
 -(void)getData{
     
-    urlImage = [NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/profileicon/%@.png",[self.playerInfo objectForKey:@"profileIconId"]]];
+    currentData = @"playerSummary";
     
-    url = [NSURL URLWithString:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/%@/summary?season=SEASON2015&api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",self.playerID]];
-    
-    data = [NSData dataWithContentsOfURL:url];
-    
-    playerSummary = [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil] objectForKey:@"playerStatSummaries"];
+    [downloader downloadDataForURL:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/%@/summary?season=SEASON2015&api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",self.playerID] for:currentData];
     
     
-    for (int i=0; i<playerSummary.count; i++) {
+}
+
+-(void)theDataIs:(NSData *)data{
+    
+    if([downloader.name isEqualToString:@"playerSummary"])
+    {
+        playerSummary = [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil] objectForKey:@"playerStatSummaries"];
         
-        if([[[playerSummary objectAtIndex:i] objectForKey:@"playerStatSummaryType"] isEqualToString:@"Unranked"]){
+        for (int i=0; i<playerSummary.count; i++) {
             
-            unrankedData = [playerSummary objectAtIndex:i];
-            break;
+            if([[[playerSummary objectAtIndex:i] objectForKey:@"playerStatSummaryType"] isEqualToString:@"Unranked"]){
+                
+                unrankedData = [playerSummary objectAtIndex:i];
+                break;
+            }
         }
+        
+        [self setData];
     }
 }
 
 -(void)setData{
+    
+    urlImage = [NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/profileicon/%@.png",[self.playerInfo objectForKey:@"profileIconId"]]];
     
     self.playerIcon.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:urlImage]];
     [self.playerIcon.layer setBorderWidth:5];
@@ -91,8 +91,6 @@
     self.totalWins.textColor = [UIColor whiteColor];
     self.totalWins.text = [NSString stringWithFormat:@"%@",[unrankedData objectForKey:@"wins"]];
     
-//    self.playerStatsTitles.font = [UIFont fontWithName:@"Copperplate=Bold" size:15];
-//    self.playerStatsTitles.textColor = [UIColor colorWithRed:37.0/255.0 green:123.0/255.0 blue:1 alpha:1];
     self.playerStatsTitles.text = @"Kills:\n\nAssists:\n\nMinion Kills:\n\nNeutral Minion Kills:\n\nTurrets Destroyed:";
     
     NSDictionary *stats = [unrankedData objectForKey:@"aggregatedStats"];

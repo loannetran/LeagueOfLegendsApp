@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataDownloader.h"
 
-@interface ChampTableViewCell : UITableViewCell
+@interface ChampTableViewCell : UITableViewCell <DataDownloaderDelegate>{
+    
+    DataDownloader *downloader;
+    NSString *currentData;
+}
 
 @property (weak, nonatomic) IBOutlet UIImageView *champImgView;
 @property (weak, nonatomic) IBOutlet UILabel *champLbl;
 
--(void)setImageAndLabelFor:(NSString *)champName;
+-(void)getDataForChamp:(NSString *)champName;
 
 @end

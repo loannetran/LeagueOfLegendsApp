@@ -7,8 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataDownloader.h"
 
-@interface RankedViewController : UIViewController
+@interface RankedViewController : UIViewController <DataDownloaderDelegate>{
+    
+    NSArray *soloLeague;
+    NSArray *playersInThisLeague;
+    NSDictionary *playerStats;
+    NSString *tier;
+    NSString *division;
+    NSString *wins;
+    NSString *loss;
+    NSString *leaguePts;
+    DataDownloader *downloader;
+
+}
 
 @property (weak, nonatomic) IBOutlet UILabel *rankedTitle;
 @property (weak, nonatomic) NSString *playerId;

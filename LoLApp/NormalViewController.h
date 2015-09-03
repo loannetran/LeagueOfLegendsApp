@@ -7,8 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataDownloader.h"
 
-@interface NormalViewController : UIViewController
+@interface NormalViewController : UIViewController <DataDownloaderDelegate>{
+    
+    NSString *playerName;
+    NSURL *urlImage;
+    NSURL *url;
+    NSArray *playerSummary;
+    NSDictionary *unrankedData;
+    NSString *currentData;
+    DataDownloader *downloader;
+}
 
 @property (weak,nonatomic) NSDictionary *playerInfo;
 @property (weak, nonatomic) IBOutlet UILabel *level;
