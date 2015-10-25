@@ -29,12 +29,6 @@
     [self.backBtn.layer setBorderWidth:2];
     [self.backBtn.layer setBorderColor:[UIColor lightGrayColor].CGColor];
     
-    [self roundedBorder:self.passiveImg];
-    [self roundedBorder:self.QImg];
-    [self roundedBorder:self.WImg];
-    [self roundedBorder:self.EImg];
-    [self roundedBorder:self.RImg];
-    
     CGAffineTransform rotate = CGAffineTransformMakeRotation(-3.14/2);
     rotate = CGAffineTransformScale(rotate, 0.75, 3.0);
     [self.skinPicker setTransform:rotate];
@@ -91,6 +85,12 @@
     self.WImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",wSpell]]]];
     self.EImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",eSpell]]]];
     self.RImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",rSpell]]]];
+    
+        [self roundedBorder:self.passiveImg];
+        [self roundedBorder:self.QImg];
+        [self roundedBorder:self.WImg];
+        [self roundedBorder:self.EImg];
+        [self roundedBorder:self.RImg];
 }
 
 
