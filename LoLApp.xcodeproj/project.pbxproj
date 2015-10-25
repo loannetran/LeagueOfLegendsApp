@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		691300AA1BC6D33800D34BC7 /* lolHome.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 691300A61BC6D33700D34BC7 /* lolHome.jpg */; };
+		691300AB1BC6D33800D34BC7 /* lolNorm.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 691300A71BC6D33800D34BC7 /* lolNorm.jpg */; };
+		691300AC1BC6D33800D34BC7 /* lolSpell.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 691300A81BC6D33800D34BC7 /* lolSpell.jpg */; };
+		691300AD1BC6D33800D34BC7 /* lolChamp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 691300A91BC6D33800D34BC7 /* lolChamp.jpg */; };
 		692537631B9784B20057B550 /* global.plist in Resources */ = {isa = PBXBuildFile; fileRef = 692537621B9784B20057B550 /* global.plist */; };
 		694928C51B92A6A900606C63 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 694928C41B92A6A900606C63 /* SearchViewController.m */; };
 		694928C81B92A6D700606C63 /* MyTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 694928C71B92A6D700606C63 /* MyTabBarViewController.m */; };
@@ -66,6 +70,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		691300A61BC6D33700D34BC7 /* lolHome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lolHome.jpg; sourceTree = "<group>"; };
+		691300A71BC6D33800D34BC7 /* lolNorm.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lolNorm.jpg; sourceTree = "<group>"; };
+		691300A81BC6D33800D34BC7 /* lolSpell.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lolSpell.jpg; sourceTree = "<group>"; };
+		691300A91BC6D33800D34BC7 /* lolChamp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lolChamp.jpg; sourceTree = "<group>"; };
 		692537621B9784B20057B550 /* global.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = global.plist; sourceTree = "<group>"; };
 		694928C31B92A6A900606C63 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		694928C41B92A6A900606C63 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
@@ -260,6 +268,10 @@
 		69D2D8261B928C120005B8CB /* LoLApp */ = {
 			isa = PBXGroup;
 			children = (
+				691300A61BC6D33700D34BC7 /* lolHome.jpg */,
+				691300A71BC6D33800D34BC7 /* lolNorm.jpg */,
+				691300A81BC6D33800D34BC7 /* lolSpell.jpg */,
+				691300A91BC6D33800D34BC7 /* lolChamp.jpg */,
 				6925375D1B9776740057B550 /* Main */,
 				6925375F1B9776BE0057B550 /* Search */,
 				692537601B9776CD0057B550 /* Champions */,
@@ -406,10 +418,12 @@
 				695876E41B95654200897696 /* gold_v.png in Resources */,
 				695876DD1B95654200897696 /* diamond_iii.png in Resources */,
 				695876D91B95654200897696 /* bronze_iv.png in Resources */,
+				691300AA1BC6D33800D34BC7 /* lolHome.jpg in Resources */,
 				695876ED1B95654200897696 /* silver_iv.png in Resources */,
 				695876DA1B95654200897696 /* bronze_v.png in Resources */,
 				695876E61B95654200897696 /* platinum_ii.png in Resources */,
 				69CAAC331B9449CA0051931A /* hearts-25.png in Resources */,
+				691300AC1BC6D33800D34BC7 /* lolSpell.jpg in Resources */,
 				695876EB1B95654200897696 /* silver_ii.png in Resources */,
 				695876E21B95654200897696 /* gold_iii.png in Resources */,
 				69CAAC311B9449C00051931A /* joystick-25.png in Resources */,
@@ -417,7 +431,9 @@
 				695876D81B95654200897696 /* bronze_iii.png in Resources */,
 				695876DE1B95654200897696 /* diamond_iv.png in Resources */,
 				69D2D8331B928C120005B8CB /* Main.storyboard in Resources */,
+				691300AD1BC6D33800D34BC7 /* lolChamp.jpg in Resources */,
 				69D2D8381B928C120005B8CB /* LaunchScreen.xib in Resources */,
+				691300AB1BC6D33800D34BC7 /* lolNorm.jpg in Resources */,
 				69D2D8351B928C120005B8CB /* Images.xcassets in Resources */,
 				695876D61B95654200897696 /* bronze_i.png in Resources */,
 			);
@@ -572,8 +588,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LoLApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -582,8 +600,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LoLApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
