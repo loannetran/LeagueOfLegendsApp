@@ -30,7 +30,9 @@
 
 -(void)getData{
     
-    [downloader downloadDataForURL:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/%@?api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",self.playerId] for:@"rankedInfo"];
+//    NSLog(@"%@", self.playerId);
+    
+    [downloader downloadDataForURL:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/%@/entry?api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",self.playerId] for:@"rankedInfo"];
     
 }
 
@@ -38,54 +40,83 @@
     
     if ([downloader.name isEqualToString:@"rankedInfo"]) {
      
+        
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         
-        soloLeague = [dict objectForKey:[NSString stringWithFormat:@"%@",self.playerId]];
+        NSArray *ranked = [dict objectForKey:[NSString stringWithFormat:@"%@",self.playerId]];
         
-        if(soloLeague == nil)
+        if (dict == nil) {
+            soloTier = @"Unranked";
+            teamTier = @"Unranked";
+        }else if (ranked.count == 1)
         {
-            tier = @"Unranked";
-            
-        }else{
-            
-            for (int i = 0; i<soloLeague.count; i++) {
-                if([[[soloLeague objectAtIndex:i] objectForKey:@"queue"] isEqualToString:@"RANKED_SOLO_5x5"]){
-                    
-                    tier = [[soloLeague objectAtIndex:i] objectForKey:@"tier"];
-                    playersInThisLeague = [[soloLeague objectAtIndex:i] objectForKey:@"entries"];
-                    break;
-                }
-            }
-            
-            NSString *playerName = [self.playerInfo objectForKey:@"name"];
-            
-            for(int i = 0; i<playersInThisLeague.count; i++)
-            {
-                if([[[playersInThisLeague objectAtIndex:i] objectForKey:@"playerOrTeamName"] isEqualToString:playerName])
-                {
-                    playerStats = [playersInThisLeague objectAtIndex:i];
-                    NSLog(@"%@",playerStats);
-                    break;
-                }
-            }
-            
-            division = [playerStats objectForKey:@"division"];
-            leaguePts = [playerStats objectForKey:@"leaguePoints"];
-            loss = [playerStats objectForKey:@"losses"];
-            wins = [playerStats objectForKey:@"wins"];
+            teamTier = @"Unranked";
             
         }
         
-        [self setData];
-    }
+        for (NSDictionary *queueType in ranked) {
+            
+            if ([[queueType objectForKey:@"queue"] isEqualToString:@"RANKED_SOLO_5x5"]) {
+                
+                    soloLeague = queueType;
+                    
+                    if(soloLeague == nil)
+                    {
+                        soloTier = @"Unranked";
+                        
+                    }else{
+                        
+                        soloTier = [soloLeague objectForKey:@"tier"];
+                        
+                        playerStats = [[soloLeague objectForKey:@"entries"] objectAtIndex:0];
+                        
+//                        NSString *playerName = [playerStats objectForKey:@"playerOrTeamName"];
+                        
+                        soloDivision = [playerStats objectForKey:@"division"];
+                        soloLeaguePts = [playerStats objectForKey:@"leaguePoints"];
+                        soloLosses = [playerStats objectForKey:@"losses"];
+                        soloWin = [playerStats objectForKey:@"wins"];
+                        
+                    }
+                
+            }else if ([[queueType objectForKey:@"queue"] isEqualToString:@"RANKED_TEAM_5x5"]) {
+                
+                teamLeague = queueType;
+                
+                    if(teamLeague == nil)
+                    {
+                        teamTier = @"Unranked";
+                        
+                    }else{
+                        
+                        if (teamTier == nil) {
+                            
+                            teamTier = [teamLeague objectForKey:@"tier"];
+                            
+                            teamStats = [[teamLeague objectForKey:@"entries"] objectAtIndex:0];
+                            
+                            //                        NSString *playerName = [playerStats objectForKey:@"playerOrTeamName"];
+                            
+                            teamDivision = [teamStats objectForKey:@"division"];
+                            teamLeaguePts = [teamStats objectForKey:@"leaguePoints"];
+                            teamLosses = [teamStats objectForKey:@"losses"];
+                            teamWin = [teamStats objectForKey:@"wins"];
+
+                        }
+                    }
+                }
+            }
+        }
+    
+    [self setData];
     
 }
 
 -(void)setData{
     
-    if([tier isEqualToString:@"Unranked"])
+    if([soloTier isEqualToString:@"Unranked"])
     {
-        self.soloRank.text = tier;
+        self.soloRank.text = soloTier;
         self.soloLP.text = @"";
         self.soloWins.text = @"";
         self.soloLoss.text = @"";
@@ -95,18 +126,40 @@
         self.soloImg.image = [UIImage imageNamed:@"provisional.png"];
     }else{
         
-        self.soloRank.text = [NSString stringWithFormat:@"%@ %@", tier,division];
-        self.soloLP.text = [NSString stringWithFormat:@"%@ League Points",leaguePts];
-        self.soloWins.text = [NSString stringWithFormat:@"%@",wins];
-        self.soloLoss.text = [NSString stringWithFormat:@"%@",loss];
+        self.soloRank.text = [NSString stringWithFormat:@"%@ %@", soloTier,soloDivision];
+        self.soloLP.text = [NSString stringWithFormat:@"%@ League Points",soloLeaguePts];
+        self.soloWins.text = [NSString stringWithFormat:@"%@",soloWin];
+        self.soloLoss.text = [NSString stringWithFormat:@"%@",soloLosses];
         
-        [tier lowercaseString];
-        [division lowercaseString];
+        [soloTier lowercaseString];
+        [soloDivision lowercaseString];
         
-        self.soloImg.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_%@.png",tier,division]];
+        self.soloImg.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_%@.png",soloTier,soloDivision]];
     }
     
-    
+    if([teamTier isEqualToString:@"Unranked"])
+    {
+        self.teamRank.text = teamTier;
+        self.teamLP.text = @"";
+        self.teamWins.text = @"";
+        self.teamLoss.text = @"";
+        [self.teamWinLbl setHidden:YES];
+        [self.teamLossLbl setHidden:YES];
+        
+        self.teamImg.image = [UIImage imageNamed:@"provisional.png"];
+    }else{
+        
+        self.teamRank.text = [NSString stringWithFormat:@"%@ %@", teamTier,teamDivision];
+        self.teamLP.text = [NSString stringWithFormat:@"%@ League Points",teamLeaguePts];
+        self.teamWins.text = [NSString stringWithFormat:@"%@",teamWin];
+        self.teamLoss.text = [NSString stringWithFormat:@"%@",teamLosses];
+        
+        [teamTier lowercaseString];
+        [teamDivision lowercaseString];
+        
+        self.teamImg.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_%@.png",teamTier,teamDivision]];
+    }
+
 }
 
 -(void)setBottomBorderForView:(UIView *)view{

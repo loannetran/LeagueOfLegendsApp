@@ -11,14 +11,20 @@
 
 @interface RankedViewController : UIViewController <DataDownloaderDelegate>{
     
-    NSArray *soloLeague;
-    NSArray *playersInThisLeague;
     NSDictionary *playerStats;
-    NSString *tier;
-    NSString *division;
-    NSString *wins;
-    NSString *loss;
-    NSString *leaguePts;
+    NSDictionary *soloLeague;
+    NSString *soloTier;
+    NSString *soloDivision;
+    NSString *soloWin;
+    NSString *soloLosses;
+    NSString *soloLeaguePts;
+    NSDictionary *teamStats;
+    NSDictionary *teamLeague;
+    NSString *teamTier;
+    NSString *teamDivision;
+    NSString *teamWin;
+    NSString *teamLosses;
+    NSString *teamLeaguePts;
     DataDownloader *downloader;
 
 }

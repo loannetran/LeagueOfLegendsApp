@@ -218,8 +218,10 @@
         
         if(summonerData == nil)
         {
-            [alert show];
-            [self.searchTxtFld becomeFirstResponder];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                    [alert show];
+                [self.searchTxtFld becomeFirstResponder];
+            });
             
         }else{
             playerInfo = [NSJSONSerialization JSONObjectWithData:summonerData options:NSJSONReadingMutableContainers error:nil];
@@ -228,8 +230,10 @@
                 [self.searchTxtFld resignFirstResponder];
                 [self performSegueWithIdentifier:@"search" sender:self];
             }else{
-                [alert show];
-                [self.searchTxtFld becomeFirstResponder];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [alert show];
+                    [self.searchTxtFld becomeFirstResponder];
+                });
             }
         }
     }
