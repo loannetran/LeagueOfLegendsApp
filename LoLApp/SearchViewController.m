@@ -154,11 +154,11 @@
     
     UIAlertView *noInfo;
     
-    if([[champNames objectAtIndex:indexPath.row] isEqual:@"Bard"] || [[champNames objectAtIndex:indexPath.row] isEqual:@"Ekko"] || [[champNames objectAtIndex:indexPath.row] isEqual:@"TahmKench"])
+    if([[champNames objectAtIndex:indexPath.row] isEqual:@"Bard"] || [[champNames objectAtIndex:indexPath.row] isEqual:@"Ekko"] || [[champNames objectAtIndex:indexPath.row] isEqual:@"TahmKench"] || [[champNames objectAtIndex:indexPath.row] isEqual:@"Kindred"])
     {
         noInfo = [[UIAlertView alloc] initWithTitle:@"Champ Info" message:@"Champ information not available at this time" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         
-    }else if([[filteredData objectAtIndex:indexPath.row] isEqual:@"Bard"] || [[filteredData objectAtIndex:indexPath.row] isEqual:@"Ekko"] || [[filteredData objectAtIndex:indexPath.row] isEqual:@"TahmKench"]){
+    }else if([[filteredData objectAtIndex:indexPath.row] isEqual:@"Bard"] || [[filteredData objectAtIndex:indexPath.row] isEqual:@"Ekko"] || [[filteredData objectAtIndex:indexPath.row] isEqual:@"TahmKench"] || [[filteredData objectAtIndex:indexPath.row] isEqual:@"Kindred"]){
         
         noInfo = [[UIAlertView alloc] initWithTitle:@"Champ Info" message:@"Champ information not available at this time" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         
@@ -266,6 +266,11 @@
     
     if([[segue identifier] isEqualToString:@"champion"])
     {
+        if ([self.filterSearchBar isFirstResponder]) {
+            
+            [self.filterSearchBar resignFirstResponder];
+        }
+        
         ChampionViewController *cVc = segue.destinationViewController;
         
         cVc.champName = selectedChamp;

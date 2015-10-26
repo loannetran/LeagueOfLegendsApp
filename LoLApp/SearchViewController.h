@@ -15,6 +15,7 @@
 
 @interface SearchViewController : UIViewController <UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,DataDownloaderDelegate>
 
+@property (weak, nonatomic) IBOutlet UISearchBar *filterSearchBar;
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (weak, nonatomic) IBOutlet UITextField *searchTxtFld;
 @property (weak, nonatomic) IBOutlet UILabel *champName;

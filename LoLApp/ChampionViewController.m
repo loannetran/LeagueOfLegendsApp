@@ -59,38 +59,60 @@
     
     if([downloader.name isEqualToString:@"championData"])
     {
-        champInfo = [[[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"] objectForKey:[NSString stringWithFormat:@"%@",self.champName]];
-        skins = [champInfo objectForKey:@"skins"];
-        passive = [champInfo objectForKey:@"passive"];
-        spells = [champInfo objectForKey:@"spells"];
-        [self setData];
-        [self.skinPicker reloadAllComponents];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+           
+            champInfo = [[[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"] objectForKey:[NSString stringWithFormat:@"%@",self.champName]];
+            skins = [champInfo objectForKey:@"skins"];
+            passive = [champInfo objectForKey:@"passive"];
+            spells = [champInfo objectForKey:@"spells"];
+            
+            [self setData];
+            
+        });
+        
     }
     
 }
 
 -(void)setData{
     
-    self.passiveImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/passive/%@",[[passive objectForKey:@"image"] objectForKey:@"full"]]]]];
-    self.passiveName.text = [passive objectForKey:@"name"];
-    self.passiveInfo.text = [passive objectForKey:@"description"];
-    self.passiveInfo.textColor = [UIColor whiteColor];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        UIImage *passImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/passive/%@",[[passive objectForKey:@"image"] objectForKey:@"full"]]]]];
+        
+        NSString *qSpell = [[[spells objectAtIndex:0] objectForKey:@"image"] objectForKey:@"full"];
+        NSString *wSpell = [[[spells objectAtIndex:1] objectForKey:@"image"] objectForKey:@"full"];
+        NSString *eSpell = [[[spells objectAtIndex:2] objectForKey:@"image"] objectForKey:@"full"];
+        NSString *rSpell = [[[spells objectAtIndex:3] objectForKey:@"image"] objectForKey:@"full"];
+        
+        UIImage *qImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",qSpell]]]];
+        UIImage *wImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",wSpell]]]];
+        UIImage *eImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",eSpell]]]];
+        UIImage *rImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",rSpell]]]];
+
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            self.passiveImg.image = passImg;
+            self.passiveName.text = [passive objectForKey:@"name"];
+            self.passiveInfo.text = [passive objectForKey:@"description"];
+            self.passiveInfo.textColor = [UIColor whiteColor];
+            
+            [self roundedBorder:self.passiveImg];
+            [self roundedBorder:self.QImg];
+            [self roundedBorder:self.WImg];
+            [self roundedBorder:self.EImg];
+            [self roundedBorder:self.RImg];
+            
+            self.QImg.image = qImg;
+            self.WImg.image = wImg;
+            self.EImg.image = eImg;
+            self.RImg.image = rImg;
+            
+        });
+        
+    });
     
-    NSString *qSpell = [[[spells objectAtIndex:0] objectForKey:@"image"] objectForKey:@"full"];
-    NSString *wSpell = [[[spells objectAtIndex:1] objectForKey:@"image"] objectForKey:@"full"];
-    NSString *eSpell = [[[spells objectAtIndex:2] objectForKey:@"image"] objectForKey:@"full"];
-    NSString *rSpell = [[[spells objectAtIndex:3] objectForKey:@"image"] objectForKey:@"full"];
-    
-    self.QImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",qSpell]]]];
-    self.WImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",wSpell]]]];
-    self.EImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",eSpell]]]];
-    self.RImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",rSpell]]]];
-    
-        [self roundedBorder:self.passiveImg];
-        [self roundedBorder:self.QImg];
-        [self roundedBorder:self.WImg];
-        [self roundedBorder:self.EImg];
-        [self roundedBorder:self.RImg];
 }
 
 
@@ -267,7 +289,13 @@
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
     
     
-    UIView *skinView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 92, 200)];
+    UIView *skinView = view;
+    
+    if (skinView == nil) {
+        skinView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 92, 200)];
+        
+//        NSLog(@"created");
+    }
     
     UIImageView *skinImage = [[UIImageView alloc] initWithFrame:CGRectMake(4, 20, 80, 130)];
     CGColorRef color = [[UIColor darkGrayColor] CGColor];
@@ -284,22 +312,27 @@
     skinLabel.numberOfLines = 2;
     skinLabel.textAlignment = NSTextAlignmentCenter;
     
-    UIImage *currentSkin;
-    
-    
     for (int i = 0; i<skins.count; i++) {
         if(row == i)
         {
-            currentSkin = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/img/champion/loading/%@_%@.jpg",self.champName, [[skins objectAtIndex:i] objectForKey:@"num"]]]]];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                UIImage *currentSkin = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/img/champion/loading/%@_%@.jpg",self.champName, [[skins objectAtIndex:i] objectForKey:@"num"]]]]];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    skinImage.image = currentSkin;
+                    
+                    [skinView addSubview:skinImage];
+                    
+                    skinLabel.text = [NSString stringWithFormat:@"%@", [[skins objectAtIndex:i]objectForKey:@"name"]];
+                    
+                    [skinView addSubview:skinLabel];
+                    
+                });
+                
+            });
             
-            skinImage.image = currentSkin;
-            
-            
-            [skinView addSubview:skinImage];
-            
-            skinLabel.text = [NSString stringWithFormat:@"%@", [[skins objectAtIndex:i]objectForKey:@"name"]];
-            
-            [skinView addSubview:skinLabel];
 
         }
     }
@@ -314,6 +347,7 @@
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     
+//    NSLog(@"%lu", (unsigned long)skins.count);
     return 1;
     
 }
