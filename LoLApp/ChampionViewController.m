@@ -7,6 +7,7 @@
 //
 
 #import "ChampionViewController.h"
+#import <Parse/Parse.h>
 
 @interface ChampionViewController ()
 
@@ -90,6 +91,14 @@
         UIImage *eImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",eSpell]]]];
         UIImage *rImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://ddragon.leagueoflegends.com/cdn/5.2.1/img/spell/%@",rSpell]]]];
 
+        PFObject *champ = [PFObject objectWithClassName:@"Champion"];
+        champ[@"name"] = [NSString stringWithFormat:@"%@", self.champName];
+        champ[@"passive"] = [NSString stringWithFormat:@"%@", [passive objectForKey:@"name"]];
+        champ[@"qSpell"] = [NSString stringWithFormat:@"%@", [[spells objectAtIndex:0] objectForKey:@"name"]];
+        champ[@"wSpell"] = [NSString stringWithFormat:@"%@", [[spells objectAtIndex:1] objectForKey:@"name"]];
+        champ[@"eSpell"] = [NSString stringWithFormat:@"%@", [[spells objectAtIndex:2] objectForKey:@"name"]];
+        champ[@"rSpell"] = [NSString stringWithFormat:@"%@", [[spells objectAtIndex:3] objectForKey:@"name"]];
+        [champ saveInBackground];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             

@@ -7,6 +7,7 @@
 //
 
 #import "SearchViewController.h"
+#import <Parse/Parse.h>
 
 
 @interface SearchViewController () {
