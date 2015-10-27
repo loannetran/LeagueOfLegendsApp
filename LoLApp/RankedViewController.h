@@ -11,6 +11,10 @@
 
 @interface RankedViewController : UIViewController <DataDownloaderDelegate>{
     
+    NSDictionary *jsonDictForRankedDisplay;
+    NSDictionary *jsonDictForRankedStats;
+    
+    NSDictionary *rankedStats;
     NSDictionary *playerStats;
     NSDictionary *soloLeague;
     NSString *soloTier;
@@ -28,7 +32,8 @@
     DataDownloader *downloader;
 
 }
-
+@property (weak, nonatomic) IBOutlet UITextView *teamRankedStatsTxtView;
+@property (weak, nonatomic) IBOutlet UITextView *soloRankedStatsTxtView;
 @property (weak, nonatomic) IBOutlet UILabel *rankedTitle;
 @property (weak, nonatomic) NSString *playerId;
 @property (weak,nonatomic) NSDictionary *playerInfo;

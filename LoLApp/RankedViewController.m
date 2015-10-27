@@ -25,39 +25,38 @@
     downloader = [[DataDownloader alloc] init];
     downloader.delegate = self;
     
-    [self getData];
+    [self getDataforUrl:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/%@/entry?api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",self.playerId] for:@"rankedDisplay"];
+    
 }
 
--(void)getData{
+-(void)getDataforUrl:(NSString *)url for:(NSString *)name{
     
 //    NSLog(@"%@", self.playerId);
     
-    [downloader downloadDataForURL:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/%@/entry?api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",self.playerId] for:@"rankedInfo"];
+    [downloader downloadDataForURL:url for:name];
     
 }
 
 -(void)theDataIs:(NSData *)data{
     
-    if ([downloader.name isEqualToString:@"rankedInfo"]) {
+    if ([downloader.name isEqualToString:@"rankedDisplay"]) {
      
         
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        
-        NSArray *ranked = [dict objectForKey:[NSString stringWithFormat:@"%@",self.playerId]];
-        
-        if (dict == nil) {
-            soloTier = @"Unranked";
-            teamTier = @"Unranked";
-        }else if (ranked.count == 1)
-        {
-            teamTier = @"Unranked";
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
-        }
-        
-        for (NSDictionary *queueType in ranked) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
-            if ([[queueType objectForKey:@"queue"] isEqualToString:@"RANKED_SOLO_5x5"]) {
+            NSArray *ranked = [dict objectForKey:[NSString stringWithFormat:@"%@",self.playerId]];
+            
+            if (dict == nil) {
+                soloTier = @"Unranked";
+                teamTier = @"Unranked";
+            }
+            
+            for (NSDictionary *queueType in ranked) {
                 
+                if ([[queueType objectForKey:@"queue"] isEqualToString:@"RANKED_SOLO_5x5"]) {
+                    
                     soloLeague = queueType;
                     
                     if(soloLeague == nil)
@@ -70,7 +69,7 @@
                         
                         playerStats = [[soloLeague objectForKey:@"entries"] objectAtIndex:0];
                         
-//                        NSString *playerName = [playerStats objectForKey:@"playerOrTeamName"];
+                        //                        NSString *playerName = [playerStats objectForKey:@"playerOrTeamName"];
                         
                         soloDivision = [playerStats objectForKey:@"division"];
                         soloLeaguePts = [playerStats objectForKey:@"leaguePoints"];
@@ -78,11 +77,13 @@
                         soloWin = [playerStats objectForKey:@"wins"];
                         
                     }
+                    
+                }
                 
-            }else if ([[queueType objectForKey:@"queue"] isEqualToString:@"RANKED_TEAM_5x5"]) {
-                
-                teamLeague = queueType;
-                
+                if ([[queueType objectForKey:@"queue"] isEqualToString:@"RANKED_TEAM_5x5"]) {
+                    
+                    teamLeague = queueType;
+                    
                     if(teamLeague == nil)
                     {
                         teamTier = @"Unranked";
@@ -101,14 +102,72 @@
                             teamLeaguePts = [teamStats objectForKey:@"leaguePoints"];
                             teamLosses = [teamStats objectForKey:@"losses"];
                             teamWin = [teamStats objectForKey:@"wins"];
-
+                            
                         }
                     }
                 }
             }
-        }
+            
+            if (teamTier == nil) {
+                teamTier = @"Unranked";
+            }
+            
+            if (soloTier == nil) {
+                soloTier = @"Unranked";
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                    [self setData];
+            });
+            
+            [self getDataforUrl:[NSString stringWithFormat:@"https://na.api.pvp.net/api/lol/na/v1.3/stats/by-summoner/%@/ranked?season=SEASON2015&api_key=c1d89e3c-dea9-44f3-b9a3-11d85d099822",self.playerId] for:@"rankedStats"];
+           
+        });
+        
+    }
     
-    [self setData];
+    if ([downloader.name isEqualToString:@"rankedStats"]) {
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            rankedStats = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            int totalKills = 0;
+            int championKills = 0;
+            int mostKills = 0;
+            int assists = 0;
+            int goldEarned = 0;
+            int turretsDestroyed = 0;
+            int killingSpree = 0;
+            int largestKillingSpree = 0;
+            
+            for (NSDictionary *champ in [rankedStats objectForKey:@"champions"]) {
+                
+                NSDictionary *stats = [champ objectForKey:@"stats"];
+                totalKills += [[stats objectForKey:@"totalChampionKills"] intValue];
+                championKills = [[stats objectForKey:@"maxChampionsKilled"] intValue];
+                
+                if (championKills > mostKills) {
+                    mostKills = championKills;
+                }
+                
+                assists += [[stats objectForKey:@"totalAssists"] intValue];
+                goldEarned += [[stats objectForKey:@"totalGoldEarned"] intValue];
+                turretsDestroyed += [[stats objectForKey:@"totalTurretsKilled"] intValue];
+                killingSpree = [[stats objectForKey:@"mostChampionKillsPerSession"] intValue];
+                
+                if (killingSpree > largestKillingSpree) {
+                    largestKillingSpree = killingSpree;
+                }
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.soloRankedStatsTxtView.text = [NSString stringWithFormat:@"Total Kills: %i\nMost Kills: %i\nAssists: %i\nGold Earned: %i\nTurrets Destroyed: %i\nLargest Killing Spree: %i", totalKills, mostKills, assists, goldEarned, turretsDestroyed, largestKillingSpree];
+            });
+            
+        });
+        
+    }
     
 }
 
@@ -131,10 +190,7 @@
         self.soloWins.text = [NSString stringWithFormat:@"%@",soloWin];
         self.soloLoss.text = [NSString stringWithFormat:@"%@",soloLosses];
         
-        [soloTier lowercaseString];
-        [soloDivision lowercaseString];
-        
-        self.soloImg.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_%@.png",soloTier,soloDivision]];
+        self.soloImg.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_%@.png",soloTier.lowercaseString,soloDivision.lowercaseString]];
     }
     
     if([teamTier isEqualToString:@"Unranked"])
@@ -154,10 +210,7 @@
         self.teamWins.text = [NSString stringWithFormat:@"%@",teamWin];
         self.teamLoss.text = [NSString stringWithFormat:@"%@",teamLosses];
         
-        [teamTier lowercaseString];
-        [teamDivision lowercaseString];
-        
-        self.teamImg.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_%@.png",teamTier,teamDivision]];
+        self.teamImg.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@_%@.png",teamTier.lowercaseString,teamDivision.lowercaseString]];
     }
 
 }

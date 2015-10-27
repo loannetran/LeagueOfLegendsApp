@@ -57,6 +57,7 @@
 		69D2D8351B928C120005B8CB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69D2D8341B928C120005B8CB /* Images.xcassets */; };
 		69D2D8381B928C120005B8CB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69D2D8361B928C120005B8CB /* LaunchScreen.xib */; };
 		69D2D8441B928C120005B8CB /* LoLAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D2D8431B928C120005B8CB /* LoLAppTests.m */; };
+		BDAAC9DB1F4F7589E97985CC /* libPods-LoLApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD5F32C6CF99858D07B4F2AA /* libPods-LoLApp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2231D11640E34BF6EAE9B242 /* Pods-LoLApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoLApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-LoLApp/Pods-LoLApp.release.xcconfig"; sourceTree = "<group>"; };
+		5A174CB9395258F700C35897 /* Pods-LoLApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LoLApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LoLApp/Pods-LoLApp.debug.xcconfig"; sourceTree = "<group>"; };
 		691300A61BC6D33700D34BC7 /* lolHome.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lolHome.jpg; sourceTree = "<group>"; };
 		691300A71BC6D33800D34BC7 /* lolNorm.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lolNorm.jpg; sourceTree = "<group>"; };
 		691300A81BC6D33800D34BC7 /* lolSpell.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lolSpell.jpg; sourceTree = "<group>"; };
@@ -132,6 +135,7 @@
 		69D2D83D1B928C120005B8CB /* LoLAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoLAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D2D8421B928C120005B8CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69D2D8431B928C120005B8CB /* LoLAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoLAppTests.m; sourceTree = "<group>"; };
+		BD5F32C6CF99858D07B4F2AA /* libPods-LoLApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LoLApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDAAC9DB1F4F7589E97985CC /* libPods-LoLApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +258,8 @@
 				69D2D8261B928C120005B8CB /* LoLApp */,
 				69D2D8401B928C120005B8CB /* LoLAppTests */,
 				69D2D8251B928C120005B8CB /* Products */,
+				6CFB20C0DF70360D5145B8F4 /* Pods */,
+				C70296FC6D84D6AE0A636195 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -316,6 +323,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6CFB20C0DF70360D5145B8F4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5A174CB9395258F700C35897 /* Pods-LoLApp.debug.xcconfig */,
+				2231D11640E34BF6EAE9B242 /* Pods-LoLApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C70296FC6D84D6AE0A636195 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BD5F32C6CF99858D07B4F2AA /* libPods-LoLApp.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -323,9 +347,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 69D2D8471B928C120005B8CB /* Build configuration list for PBXNativeTarget "LoLApp" */;
 			buildPhases = (
+				C537915AC5CE9D524E75CE36 /* Check Pods Manifest.lock */,
 				69D2D8201B928C120005B8CB /* Sources */,
 				69D2D8211B928C120005B8CB /* Frameworks */,
 				69D2D8221B928C120005B8CB /* Resources */,
+				259D331E80B3BEDB1EDEE60F /* Embed Pods Frameworks */,
+				103EAA20F435C3D9FF710B90 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -447,6 +474,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		103EAA20F435C3D9FF710B90 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LoLApp/Pods-LoLApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		259D331E80B3BEDB1EDEE60F /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LoLApp/Pods-LoLApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C537915AC5CE9D524E75CE36 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		69D2D8201B928C120005B8CB /* Sources */ = {
@@ -586,6 +661,7 @@
 		};
 		69D2D8481B928C120005B8CB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A174CB9395258F700C35897 /* Pods-LoLApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LoLApp/Info.plist;
@@ -599,6 +675,7 @@
 		};
 		69D2D8491B928C120005B8CB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2231D11640E34BF6EAE9B242 /* Pods-LoLApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LoLApp/Info.plist;

@@ -52,6 +52,8 @@
     [self.champTable setBackgroundColor:[UIColor clearColor]];
     
     [self.champTable setBounces:NO];
+    [self.searchTxtFld setAutocorrectionType:UITextAutocorrectionTypeNo];
+    
     [self.searchBtn setTitleColor:[UIColor colorWithRed:134.0/255.0 green:11.0/255.0 blue:16.0/255.0 alpha:1] forState:UIControlStateNormal];
     [self.searchBtn.layer setBorderWidth:2];
     [self.searchBtn.layer setBorderColor:[UIColor lightGrayColor].CGColor];

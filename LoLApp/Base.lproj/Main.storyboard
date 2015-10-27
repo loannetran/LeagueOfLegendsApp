@@ -419,10 +419,24 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HCP-0v-XeB">
                                 <rect key="frame" x="-9" y="106" width="169" height="424"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cE5-6x-wWe">
+                                        <rect key="frame" x="16" y="223" width="145" height="180"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
                                 <color key="backgroundColor" red="0.16583120470000001" green="0.40319207699999998" blue="0.39393196470000003" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KoR-9o-utg">
                                 <rect key="frame" x="160" y="106" width="170" height="424"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fhH-oR-mqO">
+                                        <rect key="frame" x="8" y="223" width="145" height="180"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
                                 <color key="backgroundColor" red="0.22480187190000001" green="0.37346117420000002" blue="0.37346117420000002" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ranked Statistics" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MaG-FM-Jyp">
@@ -475,7 +489,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpo-O9-cbe">
                                 <rect key="frame" x="180" y="256" width="120" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="0.71764705880000002" green="0.67843137249999996" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.80784313725490198" green="0.77254901960784317" blue="0.63921568627450975" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wins" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qnt-cl-HT8">
@@ -621,6 +635,7 @@
                         <outlet property="soloLoss" destination="V08-VR-5TY" id="ThY-Iq-nrj"/>
                         <outlet property="soloLossLbl" destination="O1l-Aj-OVb" id="KMp-u7-h7F"/>
                         <outlet property="soloRank" destination="Flz-eT-tHk" id="LXc-g7-YC6"/>
+                        <outlet property="soloRankedStatsTxtView" destination="cE5-6x-wWe" id="bXC-q6-Xrn"/>
                         <outlet property="soloView" destination="HCP-0v-XeB" id="pNM-5M-2fM"/>
                         <outlet property="soloWinLbl" destination="qnt-cl-HT8" id="5iN-9s-u5s"/>
                         <outlet property="soloWins" destination="iei-WH-PIz" id="qgz-hc-ks6"/>
@@ -629,6 +644,7 @@
                         <outlet property="teamLoss" destination="roG-cw-071" id="dKM-O4-Dre"/>
                         <outlet property="teamLossLbl" destination="Euw-E2-cGA" id="nBh-Qs-Vxz"/>
                         <outlet property="teamRank" destination="Pdc-Iw-fYU" id="SRX-DW-1h9"/>
+                        <outlet property="teamRankedStatsTxtView" destination="fhH-oR-mqO" id="t7y-rx-W2b"/>
                         <outlet property="teamView" destination="KoR-9o-utg" id="DNq-mS-8EL"/>
                         <outlet property="teamWinLbl" destination="M5q-Oa-19J" id="GCS-E0-LcK"/>
                         <outlet property="teamWins" destination="cvZ-hC-PbR" id="5nk-mb-zyb"/>
